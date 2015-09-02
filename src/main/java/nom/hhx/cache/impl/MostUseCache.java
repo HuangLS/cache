@@ -5,26 +5,26 @@ import java.util.Map;
 import nom.hhx.cache.Key;
 import nom.hhx.cache.Statistics;
 
-public class MostUseCache<KEY extends Key, OBJECT> extends CacheAdapter
+public class MostUseCache<KEY extends Key, OBJECT> extends CacheAdapter<KEY, OBJECT>
 {
     public MostUseCache( long cachesize )
     {
         super( cachesize );
     }
 
-    public void put( Key key, Object object )
+    public void put( KEY key, OBJECT object )
     {
         // TODO Auto-generated method stub
         
     }
 
-    public void putAll( Map list )
+    public void putAll( Map<KEY,OBJECT> list )
     {
         // TODO Auto-generated method stub
         
     }
 
-    public Object get( Key key )
+    public OBJECT get( KEY key )
     {
         // TODO Auto-generated method stub
         return null;
@@ -48,7 +48,7 @@ public class MostUseCache<KEY extends Key, OBJECT> extends CacheAdapter
         
     }
 
-    public boolean contains( Key key )
+    public boolean contains( KEY key )
     {
         // TODO Auto-generated method stub
         return false;
