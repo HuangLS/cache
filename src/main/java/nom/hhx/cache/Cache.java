@@ -2,6 +2,8 @@ package nom.hhx.cache;
 
 import java.util.Map;
 
+import nom.hhx.cache.impl.exception.NoUnusedObjectExeption;
+
 
 /**
  * The {@link Cache} interface defines the basic functions of a cache.
@@ -20,13 +22,14 @@ public interface Cache < KEY extends Key, OBJECT >
      * 
      * @param key
      * @param object
+     * @return true if sccuss put in the cache
      */
-    public void put( KEY key, OBJECT object );
+    public boolean put( KEY key, OBJECT object );
     
     /**
      * @param list
      */
-    public void putAll( Map< KEY, OBJECT > list );
+    public boolean putAll( Map< KEY, OBJECT > list );
     
     /**
      * @param key
@@ -34,11 +37,6 @@ public interface Cache < KEY extends Key, OBJECT >
      */
     public OBJECT get( KEY key );
     
-    
-    /**
-     * @return the Statistics of the cache
-     */
-    public Statistics getStatistics();
     
     /**
      * @return
@@ -57,7 +55,18 @@ public interface Cache < KEY extends Key, OBJECT >
     public boolean contains( KEY key );
     
     /**
-     * 
+     * Clean the unused object.
      */
-    public void wrap();
+    public void swrap() throws NoUnusedObjectExeption;
+    
+    /**
+     * @return
+     */
+    public int getHitCount();
+    
+    /**
+     * @return
+     */
+    public int getMissCount();
+    
 }

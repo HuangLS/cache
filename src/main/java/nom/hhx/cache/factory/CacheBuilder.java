@@ -13,14 +13,14 @@ public class CacheBuilder
     
     public static class Settings
     {
-        public static final String JVM_PERCENT_SETNAME = "jvmheap_percent";
+        public static final String JVM_PERCENT_SETNAME = "cachesize";
         public static final String AUTO_KEY_SETNAME = "autokey";
     }
     
     public CacheBuilder()
     {
         this.properties = new Properties();
-        this.properties.setProperty( Settings.JVM_PERCENT_SETNAME, "20" );
+        this.properties.setProperty( Settings.JVM_PERCENT_SETNAME, "500" );
         this.properties.setProperty( Settings.AUTO_KEY_SETNAME, "true" );
     }
         
@@ -31,12 +31,10 @@ public class CacheBuilder
             try
             {
                 int val = Integer.valueOf( value );
-                if( val >= 100 )
-                    throw new Exception();
             }
             catch( Exception e )
             {
-                logger.warn( "Wrong settings value for " + Settings.JVM_PERCENT_SETNAME + ". Default value will count." );
+                logger.warn( "Wrong settings value for " + Settings.JVM_PERCENT_SETNAME + ". Default value 500 will be use." );
             }
         }
         this.properties.setProperty( name, value );

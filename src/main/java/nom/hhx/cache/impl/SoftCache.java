@@ -1,62 +1,43 @@
 package nom.hhx.cache.impl;
 
-import java.util.Map;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.SoftReference;
 
 import nom.hhx.cache.Key;
-import nom.hhx.cache.Statistics;
 
-public class SoftCache<KEY extends Key, OBJECT> extends CacheAdapter<KEY, OBJECT>
+public class SoftCache<KEY extends Key, OBJECT> extends RefferencedCacheAdapter<KEY,OBJECT>
 {
-    public SoftCache( long cachesize )
+
+    private static class Entry<KEY , OBJECT > extends SoftReference<OBJECT> implements KeyEntry<KEY,OBJECT>
+    {
+        
+        private KEY key;
+
+        private Entry( KEY key,OBJECT referent, ReferenceQueue<? super OBJECT> q )
+        {
+            super( referent, q );
+            this.key = key;
+        }
+
+        @Override
+        public KEY getkey()
+        {
+            return key;
+        }
+        
+    }
+    
+    
+    public SoftCache( int cachesize )
     {
         super( cachesize );
     }
 
-    public void put( KEY key, OBJECT object )
-    {
-        // TODO Auto-generated method stub
-        
-    }
 
-    public void putAll( Map<KEY,OBJECT> list )
+    @Override
+    void realput( KEY key, OBJECT object )
     {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public OBJECT get( KEY key )
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public Statistics getStatistics()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public int size()
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    public void clear()
-    {
-        // TODO Auto-generated method stub
-        
-    }
-
-    public boolean contains( KEY key )
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public void wrap()
-    {
-        // TODO Auto-generated method stub
-        
+        Entry<KEY,OBJECT> entry = new Entry<KEY,OBJECT>( key, object, (ReferenceQueue)this.pollqueue );
+        this.cache.put( key, entry );
     }
 }
